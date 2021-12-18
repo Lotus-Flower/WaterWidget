@@ -139,7 +139,6 @@ fun WaterWidgetButtonLayout(
                 .clickable(
                     onClick = actionRunCallback<AddWaterClickAction>()
                 )
-                .fillMaxWidth()
                 .defaultWeight()
         )
     }

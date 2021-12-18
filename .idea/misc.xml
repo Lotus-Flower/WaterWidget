@@ -5,6 +5,8 @@
       <map>
         <entry key="../../../../layout/compose-model-1639683886859.xml" value="0.25203252032520324" />
         <entry key="../../../../layout/compose-model-1639684841050.xml" value="1.0" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.18802083333333333" />
+        <entry key="app/src/main/res/drawable/ic_baseline_delete_outline_24.xml" value="0.18802083333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.31614583333333335" />
         <entry key="app/src/main/res/layout/water_widget_loading.xml" value="0.31614583333333335" />
         <entry key="app/src/main/res/layout/water_widget_preview.xml" value="0.6835871404399323" />
