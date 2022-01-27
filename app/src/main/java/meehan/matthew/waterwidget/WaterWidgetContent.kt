@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
@@ -12,19 +11,19 @@ import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionRunCallback
-import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
+import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.Row
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import meehan.matthew.waterwidget.WaterWidget.Companion.RECOMMENDED_DAILY_GLASSES
-import meehan.matthew.waterwidget.WaterWidget.Companion.WATER_WIDGET_PREFS_KEY
 
 @Composable
 fun WaterWidgetContent(
@@ -35,8 +34,10 @@ fun WaterWidgetContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val context = LocalContext.current
-        val prefs = currentState<Preferences>()
-        val glassesOfWater = prefs[intPreferencesKey(WATER_WIDGET_PREFS_KEY)] ?: 0
+        val glassesOfWater = runBlocking {
+            context.dataStore.data.first()
+                .get(intPreferencesKey(WaterWidget.WATER_WIDGET_PREFS_KEY)) ?: 0
+        }
         WaterWidgetCounter(
             context = context,
             glassesOfWater = glassesOfWater,

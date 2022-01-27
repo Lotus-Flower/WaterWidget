@@ -23,10 +23,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import meehan.matthew.waterwidget.WaterWidget.Companion.RECOMMENDED_DAILY_GLASSES
 import meehan.matthew.waterwidget.WaterWidget.Companion.WATER_WIDGET_PREFS_KEY
 
@@ -122,7 +120,7 @@ fun WaterActivityButtonLayout(
             contentDescription = null,
             modifier = Modifier
                 .clickable(
-                    onClick = { clearWaterClickActionFun(dataStore) }
+                    onClick = { clearWaterClickActionFunAsync(dataStore) }
                 )
 
         )
@@ -133,27 +131,12 @@ fun WaterActivityButtonLayout(
             contentDescription = null,
             modifier = Modifier
                 .clickable(
-                    onClick = { addWaterClickActionFun(dataStore) }
+                    onClick = { addWaterClickActionFunAsync(dataStore) }
                 )
         )
     }
 }
 
-fun clearWaterClickActionFun(dataStore: DataStore<Preferences>) {
-    GlobalScope.launch {
-        dataStore.updateData {
-            clearWater(it)
-        }
-    }
-}
-
-fun addWaterClickActionFun(dataStore: DataStore<Preferences>) {
-    GlobalScope.launch {
-        dataStore.updateData {
-            addWater(it)
-        }
-    }
-}
 
 internal const val FILENAME = "main"
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
