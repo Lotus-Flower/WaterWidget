@@ -108,7 +108,7 @@ fun WaterActivityGoal(
 fun WaterActivityButtonLayout(
     modifier: Modifier
 ) {
-    val dataStore = LocalContext.current.dataStore
+    val context = LocalContext.current
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
@@ -120,7 +120,7 @@ fun WaterActivityButtonLayout(
             contentDescription = null,
             modifier = Modifier
                 .clickable(
-                    onClick = { clearWaterClickActionFunAsync(dataStore) }
+                    onClick = { clearWaterClickActionFunAsync(context) }
                 )
 
         )
@@ -131,7 +131,7 @@ fun WaterActivityButtonLayout(
             contentDescription = null,
             modifier = Modifier
                 .clickable(
-                    onClick = { addWaterClickActionFunAsync(dataStore) }
+                    onClick = { addWaterClickActionFunAsync(context) }
                 )
         )
     }

@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
+import androidx.glance.appwidget.updateAll
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import meehan.matthew.waterwidget.WaterWidget.Companion.MAX_GLASSES
@@ -14,21 +15,23 @@ import meehan.matthew.waterwidget.WaterWidget.Companion.WATER_WIDGET_PREFS_KEY
 
 class AddWaterClickAction : ActionCallback {
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
-        addWaterClickActionFun(context.dataStore)
-        WaterWidget().update(context, glanceId)
+        addWaterClickActionFun(context)
+        WaterWidget().updateAll(context)
     }
 }
 
-fun addWaterClickActionFunAsync(dataStore: DataStore<Preferences>) {
+fun addWaterClickActionFunAsync(context: Context) {
     GlobalScope.launch {
-        addWaterClickActionFun(dataStore)
+        addWaterClickActionFun(context)
+
     }
 }
 
-private suspend fun addWaterClickActionFun(dataStore: DataStore<Preferences>) {
-    dataStore.updateData {
+private suspend fun addWaterClickActionFun(context: Context) {
+    context.dataStore.updateData {
         addWater(it)
     }
+    WaterWidget().updateAll(context)
 }
 
 private fun addWater(it: Preferences): Preferences =
@@ -42,23 +45,24 @@ private fun addWater(it: Preferences): Preferences =
 
 class ClearWaterClickAction : ActionCallback {
     override suspend fun onRun(context: Context, glanceId: GlanceId, parameters: ActionParameters) {
-        clearWaterClickActionFun(context.dataStore)
-        WaterWidget().update(context, glanceId)
+        clearWaterClickActionFun(context)
+        WaterWidget().updateAll(context)
     }
 
 }
 
 
-fun clearWaterClickActionFunAsync(dataStore: DataStore<Preferences>) {
+fun clearWaterClickActionFunAsync(context: Context) {
     GlobalScope.launch {
-        clearWaterClickActionFun(dataStore)
+        clearWaterClickActionFun(context)
     }
 }
 
-private suspend fun clearWaterClickActionFun(dataStore: DataStore<Preferences>) {
-    dataStore.updateData {
+private suspend fun clearWaterClickActionFun(context: Context) {
+    context.dataStore.updateData {
         clearWater(it)
     }
+    WaterWidget().updateAll(context)
 }
 
 private fun clearWater(it: Preferences): Preferences =
